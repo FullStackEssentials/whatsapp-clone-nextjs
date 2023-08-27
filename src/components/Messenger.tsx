@@ -1,88 +1,51 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useConnectClient } from '../hooks/useConnectClient';
-import { LoggedUser, User } from '../types';
-import { Channel, Chat, Window, ChannelHeader, LoadingIndicator, MessageInput, MessageList, Thread } from 'stream-chat-react';
-import { UsersList } from './UsersList';
+import { LoggedUser } from '../types';
+import { Channel, Chat, Window, LoadingIndicator, MessageInput, MessageList, Thread } from 'stream-chat-react';
+import { SidebarPreviews } from './SidebarPreviews';
 import { ThemeType, useTheme } from './ThemeProvider';
 import { Navbar } from './Navbar';
-import { UserSearchBar } from './UserSearchBar';
+import { EmptyChat } from './EmptyChat';
+import { ConversationHeader } from './ConversationHeader';
 
 interface Props {
-  user: LoggedUser
-  users: User[]
+  user: LoggedUser;
 }
 
-export const Messenger: React.FC<Props> = ({ user, users }) => {
-  const [addedUsers, setAddedUsers] = useState<User[]>([])
-  const [searchText, setSearchText] = useState<string>('')
-
+export const Messenger: React.FC<Props> = ({ user }) => {
   const { client } = useConnectClient(user)
   const { theme } = useTheme();
 
-  const chatTheme = theme === ThemeType.LIGHT ? 'str-chat__theme-light' : 'str-chat__theme-dark';
+  const chatTheme = theme === ThemeType.LIGHT ? 'str-chat__theme-light' : 'str-chat__theme-dark ';
+  console.log(user.id)
 
-  const handleUserAdd = (user: User) => () => setAddedUsers([...addedUsers, user])
-
-  const handleUserRemove = (user: User) => () => setAddedUsers(addedUsers.filter(u => u.id !== user.id))
-
-  const onStartConversation = async () => {
-    const channel = await client?.channel('messaging', {
-      members: [user.id, ...addedUsers.map(u => u.id)],
-    })
-    await channel?.watch()
-  }
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)
-
-  const selectedUsersString = addedUsers.map(u => u.name).join(', ')
-  const hasUsersSelected = addedUsers.length > 0
-
-  const searchedUsers = users.filter((u) => searchText && u.name.toLowerCase().includes(searchText.toLowerCase()))
-
-  if (!client) return <LoadingIndicator />
+  if (!client || !client.user) return <LoadingIndicator />
 
   return (
     <Chat
       client={client}
-      theme={chatTheme}
+      theme={`${chatTheme} bg-whatsappBgChat`}
       customClasses={{
-        channelList: 'bg-whatsappBg',
+        channelList: 'bg-white dark:bg-whatsappBg ',
       }}
     >
       <div className='w-full h-full flex'>
         <div className='max-w-sm w-full h-full'>
-          <Navbar user={user} />
+          <Navbar user={client.user} />
 
-          <UserSearchBar
-            searchText={searchText}
-            onSearchChange={handleSearchChange}
-          />
-
-          {hasUsersSelected && (
-            <button
-              className='mt-4 text-green-500 text-lg border-rose-50 border p-2 rounded'
-              onClick={onStartConversation}
-            >
-              Start conversation with {selectedUsersString}
-            </button>)}
-
-          <UsersList
+          <SidebarPreviews
             user={user}
-            contacts={searchedUsers}
-            addedUsers={addedUsers}
-            onUserAdd={handleUserAdd}
-            onUserRemove={handleUserRemove}
           />
         </div>
 
-        <div className='w-full h-screen '>
-          <Channel>
+        <div className='w-full h-screen'>
+          <Channel EmptyStateIndicator={EmptyChat}>
             <Window>
-              <ChannelHeader />
+              <ConversationHeader />
               <MessageList />
-              <MessageInput />
+              <MessageInput focus />
             </Window>
             <Thread />
           </Channel>

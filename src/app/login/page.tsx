@@ -1,12 +1,16 @@
 'use client'
 
-import { useState } from 'react';
-import { register } from '../api/user';
+import { useState } from 'react'
+import { register } from '../api/user'
+import { redirect } from 'next/navigation'
 
 export default function Login() {
   const [username, setUsername] = useState('')
 
-  const onRegister = () => register(username)
+  const onRegister = () => {
+    register(username)
+    redirect('/')
+  }
   const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)
 
   return (

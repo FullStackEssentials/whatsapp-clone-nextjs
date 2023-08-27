@@ -10,7 +10,19 @@ const nextConfig = {
         hostname: 'ui-avatars.com',
         port: '',
         pathname: '/api/**',
-      },
+        },
+        {
+          protocol: 'https',
+          hostname: 'getstream.io',
+          port: '',
+          pathname: '/*',
+        },
+        {
+          protocol: 'https',
+          hostname: 'i.imgur.com',
+          port: '',
+          pathname: '/*',
+        }
     ],
   },
 }

@@ -6,7 +6,7 @@ import { ThemeProvider } from '../components/ThemeProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Messenger',
+  title: 'WhatsApp Clone',
   description: 'Chat with your friends and family in real time.',
 }
 

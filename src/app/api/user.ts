@@ -12,15 +12,6 @@ export const generateToken = async (user: User) => {
   return { ...user, token }
 }
 
-export const getUsers = () => {
-  const users = [
-    { id: 'tiago', name: 'Tiago', image: 'https://ui-avatars.com/api/?name=tiago' },
-    { id: 'mariana', name: 'Mariana', image: 'https://ui-avatars.com/api/?name=mariana' },
-  ]
-
-  return users
-}
-
 export const register = async (username: string) => {
   cookies().set('username', username)
 }

@@ -24,6 +24,9 @@ module.exports = {
         whatsappBgLight: '#005c4b',
         whatsappBg2Light: '#f0f2f5',
         whatsappBgBorder: 'rgb(209, 215, 219)',
+        whatsappBgChat: '#0b141a',
+        whatsappFgSecondary: '#8696a0',
+        whatsappFgPrimaryStrong: '#e9edef',
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

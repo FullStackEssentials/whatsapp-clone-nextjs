@@ -13,13 +13,7 @@ export const useConnectClient = (loggedUser: LoggedUser) => {
     const streamClient = StreamChat.getInstance(STREAM_KEY);
 
     const init = async () => {
-      await streamClient.connectUser(
-        {
-          ...user,
-          image: `https://ui-avatars.com/api/?name=${user.name}`,
-        },
-        token,
-      )
+      await streamClient.connectUser(user, token)
 
       setClient(streamClient)
       console.log('Connected to Stream')
