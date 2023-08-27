@@ -4,6 +4,9 @@ import { Avatar } from "./Avatar";
 import { formatDistanceToNow } from "date-fns";
 import { MoreVerticalIcon, SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Input } from "./ui/input";
+
 
 export const ConversationHeader: React.FC = () => {
   const { channel, client } = useChatContext()
@@ -37,10 +40,12 @@ export const ConversationHeader: React.FC = () => {
   const lastActiveTime = formatDistanceToNow(date, { addSuffix: true });
   const online = isOnline || member.online
 
+  const handleDeleteChannel = () => channel.delete()
+
   return (
     <div>
       <div
-        className='flex items-center justify-between px-4 py-3 border-b border-whatsappBorder dark:bg-whatsappBg2 h-16'
+        className='flex items-center justify-between px-4 py-3 border-b border-whatsappBorder dark:bg-whatsappBg2 bg-whatsappBg2Light h-16'
       >
         <div className='flex items-center'>
           <Avatar
@@ -49,7 +54,7 @@ export const ConversationHeader: React.FC = () => {
             online={online}
           />
           <div className='ml-4'>
-            <p className='text-whatsappFgPrimaryStrong font-bold'>{member.name}</p>
+            <p className='dark:text-whatsappFgPrimaryStrong font-bold'>{member.name}</p>
             {
               online ?
                 <p className='text-whatsappFgPrimaryLight text-sm'>Online</p>
@@ -59,13 +64,33 @@ export const ConversationHeader: React.FC = () => {
           </div>
         </div>
 
-        <div className='flex items-center text-whatsappFgPrimaryStrong'>
+        <div className='flex items-center dark:text-whatsappFgPrimaryStrong'>
           <button className='mr-6'>
-            <SearchIcon height={20} />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <SearchIcon height={20} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='dark:bg-whatsappBg2 p-4 mr-6'>
+                <DropdownMenuLabel>Search in Conversation</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Input placeholder='Search for Messages' className="dark:bg-whatsappBg" />
+              </DropdownMenuContent>
+            </DropdownMenu>
           </button>
 
           <button className='mr-2'>
-            <MoreVerticalIcon height={20} />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <MoreVerticalIcon height={20} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='dark:bg-whatsappBg2 p-4 mr-6'>
+                <DropdownMenuItem>Report {member.name}</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleDeleteChannel}
+                  className="text-red-400">Delete Conversation</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
           </button>
         </div>
       </div>

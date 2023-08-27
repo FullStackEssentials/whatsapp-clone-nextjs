@@ -1,11 +1,11 @@
 import { ChannelList } from 'stream-chat-react'
-import { LoggedUser} from '../types'
+import { AppUser } from '../types'
 import { ChannelOptions, ChannelSort } from 'stream-chat'
 import { ConversationPreview } from './ConversationPreview';
 import { EmptyConversations } from './EmptyConversations';
 
 interface Props {
-    user: LoggedUser;
+    user: AppUser;
 }
 
 const options: ChannelOptions = { state: true, presence: true, limit: 100, watch: true };

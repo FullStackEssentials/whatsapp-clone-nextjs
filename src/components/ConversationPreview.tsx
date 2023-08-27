@@ -43,11 +43,11 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
   })
 
   if (!member) return null;
-
+  
   return (
     <div
-      className={clsx('bg-whatsappBg flex items-center p-4 border-b-slate-700 border cursor-pointer', {
-        'bg-whatsappBgSelected': isActiveConversation,
+      className={clsx('dark:bg-whatsappBg flex items-center p-4 dark:border-b-slate-700 border cursor-pointer', {
+        'dark:bg-whatsappBgSelected bg-whatsappBgBorder': isActiveConversation,
       })}
       onClick={handleSetActiveChannel}
     >
