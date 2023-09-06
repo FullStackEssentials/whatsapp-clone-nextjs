@@ -38,9 +38,7 @@ export const useConversationRead = ({ member, channel }: Props) => {
   useEffect(() => {
     if (!client) return
 
-    const handleNewMessageSent = (e: Event) => {
-      setIsRead(false)
-    }
+    const handleNewMessageSent = () => setIsRead(false)
 
     client.on('message.new', handleNewMessageSent)
 

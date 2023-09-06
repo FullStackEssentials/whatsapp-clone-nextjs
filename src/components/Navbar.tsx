@@ -1,28 +1,28 @@
+
 import { Avatar } from './Avatar';
 import { AppUser } from '../types';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '../context/ThemeProvider';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { logout } from "../app/api/user";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { deleteCookie } from 'cookies-next';
 
 
 interface Props {
   user: AppUser;
-  onToggleEditProfile: () => void;
 }
 
-export const Navbar: React.FC<Props> = ({ user, onToggleEditProfile }) => {
+export const Navbar: React.FC<Props> = ({ user }) => {
   const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
 
   const handleLogout = () => {
-    logout();
-    redirect('/login');
+    deleteCookie('username');
+    return router.push('/login');
   }
 
-
   return (
-    <nav className='flex bg-whatsappBg2Light dark:bg-whatsappBg2 p-4 flex-auto items-center h-16'>
+    <nav className='flex bg-whatsappBg2Light dark:bg-whatsappBg2 p-4 flex-auto items-center h-16 border-r border-whatsappBgBorder dark:border-gray-600'>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar
@@ -33,10 +33,7 @@ export const Navbar: React.FC<Props> = ({ user, onToggleEditProfile }) => {
         <DropdownMenuContent className='dark:bg-whatsappBg2 p-4 mr-6'>
           <DropdownMenuLabel className='text-lg'>{user?.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={onToggleEditProfile}>
-            Edit profile
-          </DropdownMenuItem>
+
           <DropdownMenuItem
             className='text-red-400'
             onClick={handleLogout}

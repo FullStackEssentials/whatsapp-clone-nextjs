@@ -1,5 +1,4 @@
-import { formatDistanceToNow } from 'date-fns';
-import { ChannelResponse, UserResponse } from "stream-chat";
+import { UserResponse } from "stream-chat";
 import { ChannelPreviewUIComponentProps, useChatContext } from 'stream-chat-react';
 import { Avatar } from './Avatar';
 import clsx from 'clsx';
@@ -7,6 +6,7 @@ import { CheckCheckIcon } from 'lucide-react'
 import { useConversationRead } from '../hooks/useConversationRead';
 import { useConversationPreview } from '../hooks/useConversationPreview';
 
+const deletedUserFallback = { id: 'deleted-user', unread_messages: 0, last_active: new Date() }
 
 export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> = ({
   channel,
@@ -16,7 +16,7 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
   displayTitle = '',
   activeChannel,
   unread,
-  lastMessage
+  lastMessage,
 }) => {
   const { client } = useChatContext();
 
@@ -24,11 +24,10 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
     ({ user }) => user?.id !== client.userID,
   );
 
-  const member = members[0]?.user as UserResponse || { id: 'deleted-user', unread_messages: 0, last_active: new Date()};
+  const member = members[0]?.user as UserResponse || deletedUserFallback;
 
   const { isRead } = useConversationRead({ member, channel })
   const {
-    isOnline,
     lastActiveTime,
     showReadMarker,
     showLastActiveTime,
@@ -43,11 +42,11 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
   })
 
   if (!member) return null;
-  
+
   return (
     <div
-      className={clsx('dark:bg-whatsappBg flex items-center p-4 dark:border-b-slate-700 border cursor-pointer', {
-        'dark:bg-whatsappBgSelected bg-whatsappBgBorder': isActiveConversation,
+      className={clsx('flex items-center p-4 dark:border-b-slate-700 border-b dark:border-whatsappBgSelected cursor-pointer dark:bg-whatsappBg', {
+        'dark:bg-whatsappBgSelectedDark bg-whatsappBgSelected': isActiveConversation,
       })}
       onClick={handleSetActiveChannel}
     >
@@ -55,7 +54,6 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
         className='mr-4'
         image={displayImage}
         name={displayTitle}
-        online={isOnline}
       />
       <div className='flex-col w-full'>
         <div className='flex justify-between'>
@@ -69,7 +67,7 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
           {showReadMarker && (
             <CheckCheckIcon
               className={clsx('w-4 h-4', {
-                'text-blue-500': isRead,
+                'text-whatsappRead': isRead,
               })}
             />
           )}

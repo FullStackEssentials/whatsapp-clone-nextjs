@@ -19,7 +19,8 @@ module.exports = {
       colors: {
         whatsappBg: '#111b21',
         whatsappBg2: '#202c33',
-        whatsappBgSelected: '#2a3942',
+        whatsappBgSelectedDark: '#2a3942',
+        whatsappBgSelected: '#f0f2f5',
         whatsappBgDeep: '#111b21',
         whatsappBgLight: '#005c4b',
         whatsappBg2Light: '#f0f2f5',
@@ -27,6 +28,7 @@ module.exports = {
         whatsappBgChat: '#0b141a',
         whatsappFgSecondary: '#8696a0',
         whatsappFgPrimaryStrong: '#e9edef',
+        whatsappRead: '#53bdeb',
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

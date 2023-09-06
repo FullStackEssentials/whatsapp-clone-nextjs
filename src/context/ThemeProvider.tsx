@@ -2,23 +2,28 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-const themes = {
-  dark: 'bg-whatsappBg text-white',
-  light: 'bg-white text-black'
-}
-
-const ThemeContext = createContext<any>(null)
-
 export enum ThemeType {
   LIGHT = 'light',
   DARK = 'dark',
 }
 
-type UseThemeReturn = {
+interface UseThemeReturn {
   theme: ThemeType;
   themeClasses: string;
   toggleTheme: () => void;
 }
+
+const themes = {
+  dark: 'bg-whatsappBg text-white',
+  light: 'bg-white text-black'
+}
+
+const ThemeContext = createContext<UseThemeReturn>({
+  theme: ThemeType.DARK,
+  themeClasses: themes.dark,
+  toggleTheme: () => { },
+})
+
 
 export const useTheme = (): UseThemeReturn => {
   const context = useContext(ThemeContext)

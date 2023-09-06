@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import '~stream-chat-react/dist/css/v2/index.css';
+@import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 @layer base {
   :root {
@@ -89,7 +90,7 @@
   --str-chat__message-bubble-background-color: #202c33;
   --str-chat__channel-search-input-wrapper-background-color: #202c33;
 
-  /* Search sidebar */ 
+  /* Search sidebar */
   --str-chat__channel-search-results-empty-background-color: #111b21;
   --str-chat__channel-search-results-searching-background-color: #111b21;
   --str-chat__channel-search-results-header-background-color: #111b21;
@@ -106,14 +107,14 @@
   }
 
   .str-chat__theme-light .str-chat__list {
-    background-image: url("../assets/bg-light.jpg") !important;
+    background-image: url("../assets/bg-light.png") !important;
   }
 
   .str-chat__theme-light .str-chat__main-panel {
-    background-image: url("../assets/bg-light.jpg") !important;
+    background-image: url("../assets/bg-light.png") !important;
   }
-  
-    .str-chat__theme-dark .str-chat__channel-search-bar-button--exit-search > svg > path {
+
+  .str-chat__theme-dark .str-chat__channel-search-bar-button--exit-search>svg>path {
     fill: #26a69a;
   }
 }

@@ -1,49 +1,34 @@
-import { useChatContext } from "stream-chat-react";
-import { Event } from "stream-chat";
+import { useChannelStateContext, useChatContext } from "stream-chat-react";
 import { Avatar } from "./Avatar";
 import { formatDistanceToNow } from "date-fns";
-import { MoreVerticalIcon, SearchIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MoreVerticalIcon, PhoneCallIcon, SearchIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
+import { LoggedUser } from "../types";
+import { CreateCallButton } from "./CreateCallButton";
 
+interface Props {
+  loggedUser: LoggedUser;
+}
 
-export const ConversationHeader: React.FC = () => {
-  const { channel, client } = useChatContext()
+export const ConversationHeader: React.FC<Props> = ({ loggedUser }) => {
+  const { client, channel } = useChatContext()
+  const { watcher_count } = useChannelStateContext('ChannelHeader');
 
   const member = Object.values(channel?.state.members || {})
     .filter(({ user }) => user?.id !== client.userID)[0].user;
 
-  const [isOnline, setIsOnline] = useState<boolean>(!!member?.online)
-
-  useEffect(() => {
-    if (!client) return
-
-    const handlePresenceChanged = ({ user }: Event) => {
-      console.log('user.presence.changed', user)
-
-      if (user?.id !== member?.id) return
-
-      setIsOnline(!!user?.online)
-    }
-
-    client.on('user.presence.changed', handlePresenceChanged)
-
-    return () => {
-      client.off('user.presence.changed', handlePresenceChanged)
-    }
-  }, [client, member?.id])
+  const isOnline = Boolean(watcher_count && watcher_count >= 2)
 
   if (!channel || !member) return null
 
   const date = new Date(member.last_active as string);
   const lastActiveTime = formatDistanceToNow(date, { addSuffix: true });
-  const online = isOnline || member.online
 
   const handleDeleteChannel = () => channel.delete()
 
   return (
-    <div>
+    <>
       <div
         className='flex items-center justify-between px-4 py-3 border-b border-whatsappBorder dark:bg-whatsappBg2 bg-whatsappBg2Light h-16'
       >
@@ -51,12 +36,12 @@ export const ConversationHeader: React.FC = () => {
           <Avatar
             image={member.image || ''}
             name={member.name || ''}
-            online={online}
+            online={isOnline}
           />
           <div className='ml-4'>
             <p className='dark:text-whatsappFgPrimaryStrong font-bold'>{member.name}</p>
             {
-              online ?
+              isOnline ?
                 <p className='text-whatsappFgPrimaryLight text-sm'>Online</p>
                 :
                 <p className='text-whatsappFgSecondary text-sm'>Last online {lastActiveTime}</p>
@@ -65,6 +50,10 @@ export const ConversationHeader: React.FC = () => {
         </div>
 
         <div className='flex items-center dark:text-whatsappFgPrimaryStrong'>
+          <button className='mr-6 mb-1'>
+            <CreateCallButton loggedUser={loggedUser} />
+          </button>
+
           <button className='mr-6'>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -94,6 +83,6 @@ export const ConversationHeader: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 }

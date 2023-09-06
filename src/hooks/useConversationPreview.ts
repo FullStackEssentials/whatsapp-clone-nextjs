@@ -27,22 +27,20 @@ export const useConversationPreview = ({
   const lastActiveTime = formatDistanceToNow(date, { addSuffix: true });
 
   const isActiveConversation = activeChannel?.id === channel.id;
-  const isOnline = member.online
-
 
   const handleSetActiveChannel = () => {
     if (!setActiveChannel) return;
     setActiveChannel(channel);
+    channel.watch({ presence: true, state: true });
   }
 
   const firstTimeConversation = Boolean(channel.state.last_message_at)
   const isLastMessageFromMe = lastMessage?.user?.id === client.userID
 
-  const showLastActiveTime = firstTimeConversation && !isOnline
+  const showLastActiveTime = firstTimeConversation
   const showReadMarker = firstTimeConversation && isLastMessageFromMe
 
   return {
-    isOnline,
     lastActiveTime,
     showReadMarker,
     showLastActiveTime,
