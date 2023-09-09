@@ -11,7 +11,7 @@ import { Input } from '../../components/ui/input'
 export default function Login() {
   const [username, setUsername] = useState('')
   const storedUsername = getCookie('username') || '';
-  const { onLogin, user } = useUser()
+  const { onLogin } = useUser()
   const router = useRouter()
 
   useEffect(() => {

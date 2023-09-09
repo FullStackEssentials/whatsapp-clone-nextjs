@@ -10,10 +10,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { getCookie } from "cookies-next"
 
-interface Props {
-}
-
-export const AuthenticatedApp: React.FC<Props> = ({ }) => {
+export const AuthenticatedApp = () => {
   const { themeClasses, theme } = useTheme()
   const storedUsername = getCookie('username') || '';
   const { user, setUser } = useUser()

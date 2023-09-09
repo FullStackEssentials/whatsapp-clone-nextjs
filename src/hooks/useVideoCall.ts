@@ -47,31 +47,33 @@ export const useVideoCall = (loggedUser: LoggedUser) => {
     }
   }, [client, currentCall?.id, loggedUser.id, setIncomingCall])
 
+  /**
+   * Clean up the current call when the component unmounts
+   */
   useEffect(() => {
     if (!videoClient || !currentCall) return;
 
     return () => {
       setCurrentCall(null);
     }
-
   }, [currentCall, videoClient])
 
+  /**
+   * Join the call when the user accepts the call
+   */
   useEffect(() => {
     if (!videoClient || !acceptedCallId) return;
 
-    const joinCall = async () => {
-      console.log('joinCall', acceptedCallId);
-
+    const joinIncomingCall = async () => {
       const call = videoClient.call('default', acceptedCallId);
       await call.join();
 
       setCurrentCall(call);
-
       // clean notification
       setIncomingCall('', '');
     }
 
-    joinCall();
+    joinIncomingCall();
   }, [acceptedCallId, setIncomingCall, videoClient])
 
   const handleCallEnd = async () => {

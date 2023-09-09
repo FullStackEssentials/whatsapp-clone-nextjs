@@ -21,10 +21,6 @@ export const ConversationHeader: React.FC<Props> = ({ loggedUser }) => {
   const isOnline = Boolean(watcher_count && watcher_count >= 2)
 
   if (!channel || !member) return null
-
-  const date = new Date(member.last_active as string);
-  const lastActiveTime = formatDistanceToNow(date, { addSuffix: true });
-
   const handleDeleteChannel = () => channel.delete()
 
   return (
@@ -40,12 +36,7 @@ export const ConversationHeader: React.FC<Props> = ({ loggedUser }) => {
           />
           <div className='ml-4'>
             <p className='dark:text-whatsappFgPrimaryStrong font-bold'>{member.name}</p>
-            {
-              isOnline ?
-                <p className='text-whatsappFgPrimaryLight text-sm'>Online</p>
-                :
-                <p className='text-whatsappFgSecondary text-sm'>Last online {lastActiveTime}</p>
-            }
+            {isOnline && <p className='text-whatsappFgPrimaryLight text-sm'>Online</p>}
           </div>
         </div>
 

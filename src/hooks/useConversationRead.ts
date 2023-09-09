@@ -17,13 +17,14 @@ export const useConversationRead = ({ member, channel }: Props) => {
   const unreadMemberCount = channel.state.read[member.id]?.unread_messages;
   const [isRead, setIsRead] = useState<boolean>(unreadMemberCount === 0)
 
+  /**
+   * When a message is read, the conversation is marked as read
+   */
   useEffect(() => {
     if (!client) return
 
     const handleMessageRead = ({ user }: Event) => {
       if (user?.id !== member?.id) return
-      console.log('message.read')
-
       setIsRead(true)
     }
 
@@ -35,6 +36,9 @@ export const useConversationRead = ({ member, channel }: Props) => {
   }, [client, member?.id])
 
 
+  /**
+   * When a new message is sent, the conversation is marked as unread
+   */
   useEffect(() => {
     if (!client) return
 

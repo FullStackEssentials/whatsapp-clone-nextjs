@@ -35,7 +35,7 @@ export const Messenger: React.FC<Props> = ({ user }) => {
         <div className='max-w-sm w-full h-full'>
           <Navbar user={chatClient.user} />
 
-          <div className='flex-col bg-whatsappBgDeep h-full'>
+          <div className='flex-col dark:bg-whatsappBgDeep h-full'>
             <ChannelList
               filters={{
                 members: {
