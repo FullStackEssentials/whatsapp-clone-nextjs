@@ -17,6 +17,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        primary: "#59CE72",
         whatsappBg: '#111b21',
         whatsappBg2: '#202c33',
         whatsappBgSelectedDark: '#2a3942',

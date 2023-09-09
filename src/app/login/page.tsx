@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../context/UserProvider'
 import { getCookie } from 'cookies-next'
-import { ChatSvg } from '../../components/svg/ChatSvg'
+import { BirdChatSvg } from '../../components/svg/BirdChatSvg'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 
@@ -25,20 +25,20 @@ export default function Login() {
   const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24 bg-whatsappBg'>
-      <h1 className='text-4xl font-bold'>Login</h1>
+    <main className='flex min-h-screen flex-col items-center justify-between p-24 bg-whatsappBg2'>
+      <h1 className='text-4xl font-bold text-white'>Login</h1>
 
-      <ChatSvg />
+      <BirdChatSvg />
 
       <div className='flex items-center justify-center'>
         <Input
-          className='rounded-md p-2 m-2'
+          className='rounded-md p-2 m-2 text-white bg-whatsappBgDeep'
           type='text'
           onChange={onUsernameChange}
           placeholder='Username'
         />
         
-        <Button onClick={handleLoginClick}>Login</Button>
+        <Button className='bg-primary rounded-sm' onClick={handleLoginClick}>Login</Button>
       </div>
     </main>
   )

@@ -42,8 +42,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({
   })
 
   const onLogin = async (username: string) => {
-    setCookie('username', username)
-    setUser({ id: '', token: '', name: username })
+    const name = username.toLocaleLowerCase()
+    setCookie('username', name)
+    setUser({ id: '', token: '', name })
   }
 
   return (
