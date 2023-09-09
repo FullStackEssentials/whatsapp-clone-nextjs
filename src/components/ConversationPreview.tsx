@@ -79,7 +79,10 @@ export const ConversationPreview: React.FC<ChannelPreviewUIComponentProps<any>> 
         </div>
 
         {Number(unread) > 0 && (
-          <div className='text-gray-400 text-sm'>{unread}</div>
+          <div
+            className='text-red-400 rounded-full text-center text-sm justify-center mt-2 '>
+            {unread} unread messages
+          </div>
         )}
       </div>
     </div>
