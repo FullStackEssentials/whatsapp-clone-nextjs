@@ -38,7 +38,7 @@ export default function Login() {
           placeholder='Username'
         />
         
-        <Button className='bg-primary rounded-sm' onClick={handleLoginClick}>Login</Button>
+        <Button className='bg-whatsAppPrimary rounded-sm' onClick={handleLoginClick}>Login</Button>
       </div>
     </main>
   )
